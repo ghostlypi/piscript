@@ -3,7 +3,7 @@ use std::fs::read_to_string;
 
 // Atomic Types
 union number {
-    integer : u64,
+    integer : i64,
     double : f64
 }
 
@@ -69,12 +69,31 @@ impl Mod {
     }
 }
 
+pub fn parse_num(s : &str) -> Number {
+    if s.contains('.') {
+        Number{t: true, v: number{ double: s.parse::<f64>().unwrap()}}
+    } else {
+        Number{t: false, v: number{ integer: s.parse::<i64>().unwrap()}}
+    }
+}
+
 pub fn parse(p : &str) {
     let x = read_to_string(p).unwrap();
     let lines : Vec<&str> = x.split('\n').collect();
     let lines : Vec<&str> = lines.iter().map(|s:&&str| s.split(';').collect::<Vec<&str>>()).collect::<Vec<Vec<&str>>>().into_iter().flatten().collect();
     let strtoks : Vec<Vec<&str>> = lines.iter().map(|s:&&str| s.split_whitespace().collect::<Vec<&str>>()).collect();
-    for line in lines {
-        
+    let stack = Vec::new();
+    for line in strtoks {
+        for i in 0..line.len() {
+            stack.append(match strtoks[i] {
+                "+" => ,
+                "-" => ,
+                "*" => ,
+                "/" => ,
+                "**" => ,
+                "%" => ,
+                n => parse_num(n),
+            });
+        }
     }
 }
